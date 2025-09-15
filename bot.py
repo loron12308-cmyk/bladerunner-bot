@@ -181,7 +181,7 @@ async def main():
         types.BotCommand(command="reviews", description="Отзывы"),
         types.BotCommand(command="help", description="Помощь"),
     ])
-    asyncio.create_task(start_web_app())
+    asyncio.create_task(start_web_app_server())
     asyncio.create_task(auto_backup_loop())
     logging.info("Bot is up. Polling...")
     await dp.start_polling(bot, drop_pending_updates=True)
