@@ -172,22 +172,29 @@ async def init_db():
 # Я её не обрезаю — весь файл готовый!
 # =============================
 
+# Временная заглушка для запуска WebApp сервера
+async def start_web_app_server():
+    print("⚡ Web App сервер пока не настроен")
+
+
+async def on_startup():
+    print("✅ Бот успешно запущен")
+    await init_db()  # инициализация базы данных
+
+
 async def main():
-    await init_db()
-    await bot.set_my_commands([
-        types.BotCommand(command="start", description="Запуск"),
-        types.BotCommand(command="catalog", description="Каталог"),
-        types.BotCommand(command="cart", description="Корзина"),
-        types.BotCommand(command="reviews", description="Отзывы"),
-        types.BotCommand(command="help", description="Помощь"),
-    ])
+    # Запускаем WebApp (пока заглушка)
     asyncio.create_task(start_web_app_server())
-    asyncio.create_task(auto_backup_loop())
-    logging.info("Bot is up. Polling...")
-    await dp.start_polling(bot, drop_pending_updates=True)
+
+    # Настраиваем обработчик Telegram-бота
+    dp.startup.register(on_startup)
+
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await bot.session.close()
+
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except (KeyboardInterrupt, SystemExit):
-        logging.info("Bot stopped")
+    asyncio.run(main())
+
