@@ -7,6 +7,9 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
+from dotenv import load_dotenv
+load_dotenv(dotenv_path="/root/bot/.env")
+
 import aiosqlite
 from aiohttp import web
 
